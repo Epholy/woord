@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>背单词吧</title>
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css" />
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+</head>
+
+<body>
+    <main :class="{ 'light-theme': lightTheme }">
+        <section class="card">
+            <p class="wordbox kanji" :style="{ opacity: kanjiOpacity }"> {{ currentWord?.kanji }} </p>
+            <p class="wordbox kana" :style="{ opacity: kanaOpacity }"> {{ currentWord?.kana }} </p>
+            <button class="btn showans" @click="showAnswer">ANS</button>
+            <span class="indicator"> {{ (index+1) + "/" + length }} </span>
+        </section>
+        <section class="page">
+            <button class="btn" disabled @click="previous">
+                <div class="arrow"></div>
+            </button>
+            <button class="btn" @click="next">
+                <div class="arrow"></div>
+            </button>
+        </section>
+    </main>
+    <aside>
+    </aside>
+    <script src="main.js"></script>
+</body>
+
+</html>

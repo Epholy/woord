@@ -1,0 +1,33 @@
+{
+  "version": 3,
+  "path": {
+    "k": {
+      "G1": [],
+      "G2": [],
+      "G3": [
+        {
+          "name": "G3-S1-F-k",
+          "group": "G3",
+          "title": "三年级上期末",
+          "type": "k",
+          "url": "/woord/asserts/lexicon/G3/G3-S1-F-k.json"
+        }
+      ],
+      "G4": []
+    },
+    "g": {
+      "G1": [],
+      "G2": [],
+      "G3": [
+        {
+          "name": "G3-S1-F-g",
+          "group": "G3",
+          "title": "三年级上期末",
+          "type": "g",
+          "url": "/woord/asserts/lexicon/G3/G3-S1-F-g.json"
+        }
+      ],
+      "G4": []
+    }
+  }
+}
