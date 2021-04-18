@@ -8,7 +8,7 @@ const app = new Vue({
         index: 0, // 当前单词的当前序号（非id字段），从0开始
         type: "k", // "k","g","v"。汉语、外来语或单词本
         guide: null, // 所有资源路径
-        length: null,
+        length: 0,
         lightTheme: false,
         kanjiOpacity: 1,
         kanaOpacity: 0,

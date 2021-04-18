@@ -5,19 +5,22 @@
     <title>背单词吧</title>
     <meta charset="utf8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet"> -->
+        <link href="https://fonts.loli.net/css2?family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
+        <link href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400&display=swap" rel="stylesheet">
+        <link href="https://fonts.loli.net/css2?family=Material+Icons" rel="stylesheet">
     <link href="main.css" rel="stylesheet"/>
 </head>
 
 <body>
-    <div class="app">
+    <div class="app" v-if="currentWord"> <!-- 等待所有资源加载完毕再显示 -->
         <main :class="{ 'light-theme': lightTheme }">
             <section class="card">
-                <p class="wordbox kanji" :style="{ opacity: kanjiOpacity }"> {{ currentWord?.kanji }} </p>
-                <p class="wordbox kana" :style="{ opacity: kanaOpacity }"> {{ currentWord?.kana }} </p>
+                <p class="wordbox kanji" :style="{ opacity: kanjiOpacity }"> {{ currentWord.kanji }} </p>
+                <p class="wordbox kana" :style="{ opacity: kanaOpacity }"> {{ currentWord.kana }} </p>
                 <button class="rnd_rect-btn showans" @click="showAnswer">ANS</button>
                 <span class="indicator"> {{ (index+1) + "/" + length }} </span>
             </section>
@@ -47,7 +50,7 @@
                         <p>单词本</p>
                     </label> -->
                 </div>
-                <ul class="menu-list" v-for="(grade, index) in guide?.path[type]" :key="index" v-if="grade.length != 0">
+                <ul class="menu-list" v-for="(grade, index) in guide.path[type]" :key="index" v-if="grade.length != 0">
                     <div class="menu-list-title" onclick="event.currentTarget.parentNode.classList.toggle('expanded')">
                         <h3>{{ grade[0].title.substr(0, 3) }}</h3>
                         <span class="material-icons">expand_more</span>
