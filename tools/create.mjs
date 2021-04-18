@@ -60,8 +60,8 @@ function serialize() {
 
 /* 记录文件的路径 */
 function mapPath() {
-    const __dirname = dirname(fileURLToPath(import.meta.url));
-    const lexicon = join(__dirname, "../asserts/lexicon/");
+    const dirname__ = dirname(fileURLToPath(import.meta.url));
+    const lexicon = join(dirname__, "../asserts/lexicon/");
     const dir = readdirSync(lexicon, { withFileTypes: true });
     const infoMap = new Map([
         ["G1", "一年级"],
@@ -116,8 +116,7 @@ function mapPath() {
                     infoMap.get(info[3]) +
                     infoMap.get(info[4]),
                 type: info[5],
-                // 此处需保持相对于网站根目录的绝对路径
-                url: `/woord/asserts/lexicon/${dirent.name}/${file}`,
+                url: `asserts/lexicon/${dirent.name}/${file}`,
             });
         }
     }
