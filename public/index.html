@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link rel="stylesheet" href="https://fonts.loli.net/css?family=Roboto:100,300,400,500,700,900">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css">
+    <link href="https://fonts.loli.net/css2?family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400&display=swap" rel="stylesheet">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+
+    <!-- @TODO 动态主题色 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/colorthief@2.x/dist/color-thief.min.js"></script>
+    <script>
+      const colorThief = new ColorThief();
+
+      const img = new Image();
+      img.addEventListener('load', function() {
+          const color = colorThief.getColor(img);
+          console.log(color);
+      });
+      img.crossOrigin = "Anonymous"
+      img.src = "https://cn.bing.com//th?id=OHR.Wensleydale_ZH-CN8417818046_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp";
+    </script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/localforage@1.9.0/dist/localforage.min.js"></script>
+  </body>
+</html>

@@ -61,7 +61,7 @@ function serialize() {
 /* 记录文件的路径 */
 function mapPath() {
     const dirname__ = dirname(fileURLToPath(import.meta.url));
-    const lexicon = join(dirname__, "../asserts/lexicon/");
+    const lexicon = join(dirname__, "../public/assets/lexicon/");
     const dir = readdirSync(lexicon, { withFileTypes: true });
     const infoMap = new Map([
         ["G1", "一年级"],
@@ -72,8 +72,6 @@ function mapPath() {
         ["S2", "下"],
         ["M", "期中"],
         ["F", "期末"],
-        // ["k", ""],
-        // ["g", ""]
     ]);
 
     // 尝试读取已有文件的version建
@@ -81,23 +79,31 @@ function mapPath() {
     try {
         version = JSON.parse(readFileSync(join(lexicon, "guide.json"), "utf-8"))
             .version;
-    } catch (e) {} // 这里的异常可以不用处理
+    } catch (e) {e} // 这里的异常可以不用处理
+
+    // let guide = {
+    //     version: version ?? 0,
+    //     path: {
+    //         k: {
+    //             G1: [],
+    //             G2: [],
+    //             G3: [],
+    //             G4: [],
+    //         },
+    //         g: {
+    //             G1: [],
+    //             G2: [],
+    //             G3: [],
+    //             G4: [],
+    //         },
+    //     },
+    // };
 
     let guide = {
         version: version ?? 0,
         path: {
-            k: {
-                G1: [],
-                G2: [],
-                G3: [],
-                G4: [],
-            },
-            g: {
-                G1: [],
-                G2: [],
-                G3: [],
-                G4: [],
-            },
+            k: new Map(), // 使用Map避免产生空数组，之后再转为Object进行序列化
+            g: new Map(),
         },
     };
     for (const dirent of dir) {
@@ -108,7 +114,18 @@ function mapPath() {
             if (!/^G[1-4]-S[12]-[M|F]-[k|g]\.json$/.test(file)) continue;
 
             const info = /^((G[1-4])-(S[12])-([M|F])-([k|g])).*$/.exec(file);
-            guide.path[info[5]][info[2]].push({
+            // guide.path[info[5]][info[2]].push({
+            //     name: info[1],
+            //     group: info[2],
+            //     title:
+            //         infoMap.get(info[2]) +
+            //         infoMap.get(info[3]) +
+            //         infoMap.get(info[4]),
+            //     type: info[5],
+            //     url: `assets/lexicon/${dirent.name}/${file}`,
+            // });
+            
+            guide.path[info[5]].set(info[2], {
                 name: info[1],
                 group: info[2],
                 title:
@@ -116,11 +133,20 @@ function mapPath() {
                     infoMap.get(info[3]) +
                     infoMap.get(info[4]),
                 type: info[5],
-                url: `asserts/lexicon/${dirent.name}/${file}`,
+                url: `assets/lexicon/${dirent.name}/${file}`,
             });
         }
     }
     guide.version++;
+
+    let obj= {};
+    for (const k in guide.path) {
+        obj[k] = {};
+        for(const [k1, v1] of guide.path[k]){
+            obj[k][k1] = v1;
+        }
+    }
+    guide.path = obj;
 
     writeFileSync(join(lexicon, "guide.json"), JSON.stringify(guide, null, 2));
 }
