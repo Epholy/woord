@@ -26,6 +26,6 @@ node ./create.mjs ../lexicon/G3/G3-S1-F-k.txt
 node ./create.mjs ../lexicon/G3/G3-S1-F-k.txt ../lexicon/G3/G3-S1-F-g.txt
 ```
 
-脚本最终会在txt文件所在的文件夹下生成对应的json数据文件，并更新`/public/assets/lexicon/guide.json`。
+脚本最终会在`/public/assets/lexicon/`下生成对应的json数据文件，并更新`/public/assets/lexicon/guide.json`。
 
 关于原始txt文件的信息，请移步[此处](../public/assets/lexicon/README.md)。

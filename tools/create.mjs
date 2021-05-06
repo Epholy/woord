@@ -4,11 +4,15 @@
  * 所需参数为未序列化的纯文本文件名，无上限，utf8编码
  */
 
-import { readdirSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { dirname, join } from "path";
 import { exit } from "process";
 import { fileURLToPath } from "url";
+
 const args = process.argv.slice(2);
+// 该脚本所在的绝对路径
+const dirname__ = dirname(fileURLToPath(import.meta.url));
+const lexicon = join(dirname__, "../public/assets/lexicon/");
 
 if (args.length == 0) {
     console.log("至少输入一个路径参数。");
@@ -47,7 +51,10 @@ function serialize() {
         const basename = file.match(/(.+)\..+$/)[1];
         const output = basename + ".json";
         try {
-            writeFileSync(output, JSON.stringify(words, null, 2));
+            writeFileSync(
+                join(lexicon, output),
+                JSON.stringify(words, null, 2)
+            );
         } catch (error) {
             console.log(`写入失败: ${output}( ${error.message} )`);
         }
@@ -60,8 +67,6 @@ function serialize() {
 
 /* 记录文件的路径 */
 function mapPath() {
-    const dirname__ = dirname(fileURLToPath(import.meta.url));
-    const lexicon = join(dirname__, "../public/assets/lexicon/");
     const dir = readdirSync(lexicon, { withFileTypes: true });
     const infoMap = new Map([
         ["G1", "一年级"],
@@ -79,25 +84,9 @@ function mapPath() {
     try {
         version = JSON.parse(readFileSync(join(lexicon, "guide.json"), "utf-8"))
             .version;
-    } catch (e) {e} // 这里的异常可以不用处理
-
-    // let guide = {
-    //     version: version ?? 0,
-    //     path: {
-    //         k: {
-    //             G1: [],
-    //             G2: [],
-    //             G3: [],
-    //             G4: [],
-    //         },
-    //         g: {
-    //             G1: [],
-    //             G2: [],
-    //             G3: [],
-    //             G4: [],
-    //         },
-    //     },
-    // };
+    } catch (e) {
+        e;
+    } // 这里的异常可以不用处理
 
     let guide = {
         version: version ?? 0,
@@ -114,17 +103,7 @@ function mapPath() {
             if (!/^G[1-4]-S[12]-[M|F]-[k|g]\.json$/.test(file)) continue;
 
             const info = /^((G[1-4])-(S[12])-([M|F])-([k|g])).*$/.exec(file);
-            // guide.path[info[5]][info[2]].push({
-            //     name: info[1],
-            //     group: info[2],
-            //     title:
-            //         infoMap.get(info[2]) +
-            //         infoMap.get(info[3]) +
-            //         infoMap.get(info[4]),
-            //     type: info[5],
-            //     url: `assets/lexicon/${dirent.name}/${file}`,
-            // });
-            
+
             guide.path[info[5]].set(info[2], {
                 name: info[1],
                 group: info[2],
@@ -139,10 +118,10 @@ function mapPath() {
     }
     guide.version++;
 
-    let obj= {};
+    let obj = {};
     for (const k in guide.path) {
         obj[k] = {};
-        for(const [k1, v1] of guide.path[k]){
+        for (const [k1, v1] of guide.path[k]) {
             obj[k][k1] = v1;
         }
     }
@@ -151,5 +130,32 @@ function mapPath() {
     writeFileSync(join(lexicon, "guide.json"), JSON.stringify(guide, null, 2));
 }
 
+// 将public/assets/lexicon复制到docs/assets/lexicon
+function sync() {
+    const dest = join(dirname__, "../docs/assets/lexicon/");
+    const dir = readdirSync(lexicon, { withFileTypes: true });
+
+    for (const dirent of dir) {
+        // 文件
+        if (dirent.isFile()) {
+            // console.log(dirent, dirent.isFile);
+            let buffer = readFileSync(join(lexicon, dirent.name));
+            writeFileSync(join(dest, dirent.name), buffer);
+        } else {
+        // 目录
+            const subdirent = join(lexicon, dirent.name);
+            if(!existsSync(join(dest, dirent.name))) {
+                mkdirSync(join(dest, dirent.name));
+            }
+            for (const file of readdirSync(subdirent)) {
+                let buffer = readFileSync(join(subdirent, file));
+                writeFileSync(join(dest, dirent.name, file), buffer);
+            }
+        }
+    }
+}
+
+
 serialize();
 mapPath();
+sync();
