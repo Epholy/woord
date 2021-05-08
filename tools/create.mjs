@@ -48,18 +48,19 @@ function serialize() {
             });
         }
 
-        const basename = file.match(/(.+)\..+$/)[1];
+        const basename = file.match(/([^/\\]+)\..+$/)[1];
         const output = basename + ".json";
+        console.log(output, join(lexicon, output));
         try {
             writeFileSync(
-                join(lexicon, output),
+                join(lexicon, output.substr(0, 2), output),
                 JSON.stringify(words, null, 2)
             );
+
+            succeeded++;
         } catch (error) {
             console.log(`写入失败: ${output}( ${error.message} )`);
         }
-
-        succeeded++;
     }
 
     console.log(`成功：${succeeded}/${args.length}`);
