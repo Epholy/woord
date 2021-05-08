@@ -50,7 +50,6 @@ function serialize() {
 
         const basename = file.match(/([^/\\]+)\..+$/)[1];
         const output = basename + ".json";
-        console.log(output, join(lexicon, output));
         try {
             writeFileSync(
                 join(lexicon, output.substr(0, 2), output),
