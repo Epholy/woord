@@ -91,8 +91,8 @@ function mapPath() {
     let guide = {
         version: version ?? 0,
         path: {
-            k: new Map(), // 使用Map避免产生空数组，之后再转为Object进行序列化
-            g: new Map(),
+            k: {},
+            g: {}
         },
     };
     for (const dirent of dir) {
@@ -104,7 +104,8 @@ function mapPath() {
 
             const info = /^((G[1-4])-(S[12])-([M|F])-([k|g])).*$/.exec(file);
 
-            guide.path[info[5]].set(info[2], {
+            (guide.path[info[5]][info[2]]) || (guide.path[info[5]][info[2]] = []); // 初始化
+            guide.path[info[5]][info[2]].push({
                 name: info[1],
                 group: info[2],
                 title:
@@ -118,14 +119,6 @@ function mapPath() {
     }
     guide.version++;
 
-    let obj = {};
-    for (const k in guide.path) {
-        obj[k] = {};
-        for (const [k1, v1] of guide.path[k]) {
-            obj[k][k1] = v1;
-        }
-    }
-    guide.path = obj;
 
     writeFileSync(join(lexicon, "guide.json"), JSON.stringify(guide, null, 2));
 }
