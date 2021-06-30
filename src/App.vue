@@ -307,7 +307,7 @@ import localforage from "localforage";
 
 localforage.config({
     name: "Woord",
-    storeName: "G3-S2-M", // 需与source的初始值保持同步
+    storeName: "G3-S2-F", // 需与source的初始值保持同步
 });
 
 export default {
@@ -348,7 +348,7 @@ export default {
     },
     created() {
         this.type = "k";
-        this.source = "G3-S2-M-k";
+        this.source = "G3-S2-F-k";
         this.mode = "lexicon";
         this.init(
             `assets/lexicon/${this.source.substr(0, 2)}/${this.source}.json`

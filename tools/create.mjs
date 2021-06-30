@@ -48,7 +48,7 @@ function serialize() {
             });
         }
 
-        const basename = file.match(/([^/\\]+)\..+$/)[1];
+        const basename = file.match(/([^/\\]+)\.[a-zA-Z0-9]+$/)[1];
         const output = basename + ".json";
         try {
             writeFileSync(

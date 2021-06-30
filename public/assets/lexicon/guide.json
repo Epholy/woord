@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "path": {
     "k": {
       "G3": [
@@ -9,6 +9,13 @@
           "title": "三年级上期末",
           "type": "k",
           "url": "assets/lexicon/G3/G3-S1-F-k.json"
+        },
+        {
+          "name": "G3-S2-F-k",
+          "group": "G3",
+          "title": "三年级下期末",
+          "type": "k",
+          "url": "assets/lexicon/G3/G3-S2-F-k.json"
         },
         {
           "name": "G3-S2-M-k",
@@ -27,6 +34,13 @@
           "title": "三年级上期末",
           "type": "g",
           "url": "assets/lexicon/G3/G3-S1-F-g.json"
+        },
+        {
+          "name": "G3-S2-F-g",
+          "group": "G3",
+          "title": "三年级下期末",
+          "type": "g",
+          "url": "assets/lexicon/G3/G3-S2-F-g.json"
         },
         {
           "name": "G3-S2-M-g",
