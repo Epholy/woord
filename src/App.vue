@@ -286,7 +286,7 @@
 
 <style scoped>
 #app {
-    background: url("https://cn.bing.com//th?id=OHR.Wensleydale_ZH-CN8417818046_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp")
+    background: url("https://cn.bing.com/th?id=OHR.AppalachianTrail_ZH-CN5076145300_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp")
         no-repeat center/cover fixed !important;
 }
 .v-tabs-items p {
@@ -305,7 +305,7 @@
 <script type="module">
 import localforage from "localforage";
 
-localforage.config({
+let db = localforage.createInstance({
     name: "Woord",
     storeName: "G3-S2-F", // 需与source的初始值保持同步
 });
@@ -414,20 +414,18 @@ export default {
             this.init(lexiconUrl);
         },
         collect() {
-            localforage
-                .setItem(this.currentWord.id, this.currentWord)
-                .then((val) => {
-                    // 存至数据库后更新this.collection数据
-                    this.collection.deck.push(val);
-                    // 第一次向数据库/collection.deck添加数据后，初始化currentWord
-                    if (this.collection.deck.length == 1) {
-                        this.currentWord = this.collection.deck[0];
-                    }
-                    this.uncollected = false;
-                });
+            db.setItem(this.currentWord.id, this.currentWord).then((val) => {
+                // 存至数据库后更新this.collection数据
+                this.collection.deck.push(val);
+                // 第一次向数据库/collection.deck添加数据后，初始化currentWord
+                if (this.collection.deck.length == 1) {
+                    this.currentWord = this.collection.deck[0];
+                }
+                this.uncollected = false;
+            });
         },
         remove() {
-            localforage.removeItem(this.currentWord.id).then(() => {
+            db.removeItem(this.currentWord.id).then(() => {
                 // 更新this.collection数据
                 const pos = this.collection.deck.findIndex(
                     (element) => element.id == this.currentWord.id
@@ -444,9 +442,7 @@ export default {
                     ) {
                         --this.collection.index;
                     }
-                    this.currentWord = this.collection.deck[
-                        this.collection.index
-                    ];
+                    this.currentWord = this.collection.deck[this.collection.index];
                 }
             });
         },
@@ -461,7 +457,7 @@ export default {
             return 0 == this.activeData.index;
         },
         // collection.deck的id字段集合
-        keys: function () {
+        keys() {
             return this.collection.deck.map((val) => val.id);
         },
         currentWord() {
@@ -478,17 +474,18 @@ export default {
         // 更换词库时切换数据表
         source(val, oldVal) {
             if (val.substr(0, 7) !== oldVal?.substr(0, 7)) {
-                localforage.config({
+                db = localforage.createInstance({
+                    name: "Woord",
                     storeName: val.substr(0, 7),
                 });
-                localforage
-                    .iterate((value) => {
-                        this.collection.deck.push(value);
-                    })
-                    .then(() => {
-                        this.collection.index = 0;
-                        this.currentWord = this.collection.deck[0];
-                    });
+                // 清空之前所显示的收藏
+                this.collection.deck = [];
+                db.iterate((value) => {
+                    this.collection.deck.push(value);
+                }).then(() => {
+                    this.collection.index = 0;
+                    this.currentWord = this.collection.deck[0];
+                });
             }
         },
         // 检测单词是否存在于收藏数据库中

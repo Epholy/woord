@@ -6,7 +6,7 @@ module.exports = {
     externals: {
       vue: "Vue",
       vuetify: "Vuetify",
-      localforge: "localforage_js"
+      localforage: "localforage"
     }
   },
   transpileDependencies: [
