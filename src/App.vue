@@ -293,11 +293,11 @@
     transition: opacity 0.2s;
 }
 .v-window p.jp-serif {
-    font-family: "Source Han Serif", "Noto Serif JP", serif !important;
+    font-family: "Source Han Serif", "Noto Serif JP", source-han-serif-japanese, serif !important;
     font-weight: 600;
 }
 .v-window p.sc-serif {
-    font-family: "Source Han Serif", "Noto Serif SC", serif !important;
+    font-family: "Source Han Serif", "Noto Serif SC", source-han-serif-sc, serif !important;
     font-weight: 400;
 }
 </style>
