@@ -12,6 +12,7 @@ module.exports = {
   transpileDependencies: [
     'vuetify'
   ],
+  filenameHashing: false,
   pages: {
     index: {
       entry: 'src/main.js',

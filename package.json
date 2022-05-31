@@ -1,6 +1,6 @@
 {
   "name": "woord",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -36,7 +36,7 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-debugger": "off" 
+      "no-debugger": "off"
     }
   },
   "browserslist": [
